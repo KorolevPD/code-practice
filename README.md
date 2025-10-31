@@ -8,6 +8,10 @@
 
 * [CodeRun](https://coderun.yandex.ru)
 
-* Яндекс Контест
+* [Яндекс Контест](https://contest.yandex.ru)
 
-* Yandex Cup
+* [Yandex Cup](https://yandex.ru/cup)
+
+* [LeetCode](https://leetcode.com)
+
+* [CodeWars](https://www.codewars.com)

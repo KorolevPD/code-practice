@@ -13,7 +13,7 @@ def get_possible_dirs(v, field_size):
 
 
 def bfs(end, n, m):
-    dist = [[-1]*(m+1) for _ in range(n+1)]
+    dist = [[-1] * (m + 1) for _ in range(n + 1)]
     queue = deque([end])
     dist[end[0]][end[1]] = 0
 

@@ -3,45 +3,38 @@
 from collections import deque
 
 
-def get_possible_dirs(v, field_size):
-    moves = [(2, 1), (1, 2), (-1, 2), (-2, 1),
-             (-2, -1), (-1, -2), (1, -2), (2, -1)]
-    for dx, dy in moves:
-        nx, ny = v[0] + dx, v[1] + dy
-        if 1 <= nx <= field_size[0] and 1 <= ny <= field_size[1]:
-            yield (nx, ny)
+def get_possible_dirs(v, n):
+    moves = ((1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1),
+             (0, 0, -1))
+
+    for x, y, z in moves:
+        nx, ny, nz = v[0] + x, v[1] + y, v[2] + z
+        if 0 <= nx < n and 0 <= ny < n and 0 <= nz < n:
+            yield (nx, ny, nz)
 
 
-def bfs(end, n, m):
-    dist = [[-1]*(m+1) for _ in range(n+1)]
-    queue = deque([end])
-    dist[end[0]][end[1]] = 0
+space = set()
 
-    while queue:
-        x, y = queue.popleft()
-        for nx, ny in get_possible_dirs((x, y), (n, m)):
-            if dist[nx][ny] == -1:
-                dist[nx][ny] = dist[x][y] + 1
-                queue.append((nx, ny))
-    return dist
+n = int(input())
+for z in range(n):
+    empty_line = input().strip()
+    for y in range(n):
+        for x, block in enumerate(list(input())):
+            if block == '.':
+                space.add((x, y, z))
+            elif block == 'S':
+                start = ((x, y, z))
 
+queue = deque([(start, 0)])
+visited = {start}
+while queue:
+    v, dist = queue.popleft()
 
-def main():
-    n, m, s, t, q = map(int, input().split())
-    end = (s, t)
-    dist_map = bfs(end, n, m)
+    if v[2] == 0:
+        print(dist)
+        break
 
-    total_dist = 0
-    for _ in range(q):
-        start = tuple(map(int, input().split()))
-        d = dist_map[start[0]][start[1]]
-        if d == -1:
-            print(-1)
-            return
-        total_dist += d
-
-    print(total_dist)
-
-
-if __name__ == '__main__':
-    main()
+    for next_dir in get_possible_dirs(v, n):
+        if next_dir not in visited and next_dir in space:
+            visited.add(next_dir)
+            queue.append((next_dir, dist + 1))
